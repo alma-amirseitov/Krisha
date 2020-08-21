@@ -20,12 +20,3 @@ services:
         environment: 
             KRISHA_RABBIT: "amqp://guest:guest@rabbit_krisha:5672/"
             KRISHA_ELASTIC: "http://localhost:9200"
-    rabbit_krisha:
-        restart: always
-        image: rabbitmq:3-management
-        volumes:
-          - ./rabbitmq:/var/lib/rabbitmq/
-        ports:
-            - 5672:5672
-            - 15672:15672
-        hostname: rabbit_krisha

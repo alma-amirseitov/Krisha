@@ -14,7 +14,7 @@ import (
 func GetClient() *http.Client{
 	utils.Logging("Info","Creating a new client")
 	randomProxy,err := proxy.GetProxy()
-	if randomProxy == "" || err !=nil{
+	if randomProxy == ""{
 		utils.Logging("Error","Received empty proxy "+err.Error())
 		return nil
 	}
