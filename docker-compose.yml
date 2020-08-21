@@ -1,0 +1,31 @@
+version: '2.0'
+
+services:
+    links:
+        build: ./links_scrapper
+        restart: on-failure
+        environment: 
+            KRISHA_URL: "https://krisha.kz/sitemap"
+            PROXY: "https://proxy-orbit1.p.rapidapi.com/v1/"
+            KRISHA_RABBIT: "amqp://guest:guest@rabbit_krisha:5672/"
+    ads:
+        build: ./advertisement_scrapper
+        restart: on-failure
+        environment: 
+            PROXY: "https://proxy-orbit1.p.rapidapi.com/v1/"
+            KRISHA_RABBIT: "amqp://guest:guest@rabbit_krisha:5672/"
+    saver:
+        build: ./saver
+        restart: on-failure
+        environment: 
+            KRISHA_RABBIT: "amqp://guest:guest@rabbit_krisha:5672/"
+            KRISHA_ELASTIC: "http://localhost:9200"
+    rabbit_krisha:
+        restart: always
+        image: rabbitmq:3-management
+        volumes:
+          - ./rabbitmq:/var/lib/rabbitmq/
+        ports:
+            - 5672:5672
+            - 15672:15672
+        hostname: rabbit_krisha
