@@ -8,21 +8,21 @@ services:
             KRISHA_URL: "https://krisha.kz/sitemap"
             PROXY: "https://proxy-orbit1.p.rapidapi.com/v1/"
             KRISHA_RABBIT: "amqp://guest:guest@rabbit_krisha:5672/"
-        command: ["./wait.sh", "krishaURL", "./links_scrapper"]
+        command: ["./wait.sh", "rabbit_krisha", "./krishaURL"]
     ads:
         build: ./advertisement_scrapper
         restart: on-failure
         environment: 
             PROXY: "https://proxy-orbit1.p.rapidapi.com/v1/"
             KRISHA_RABBIT: "amqp://guest:guest@rabbit_krisha:5672/"
-        command: ["./wait.sh", "krishaADS", "./advertisement_scrapper"]
+        command: ["./wait.sh", "rabbit_krisha", "./krishaADS"]
     saver:
         build: ./saver
         restart: on-failure
         environment: 
             KRISHA_RABBIT: "amqp://guest:guest@rabbit_krisha:5672/"
             KRISHA_ELASTIC: "http://localhost:9200"
-        command: ["./wait.sh", "krishaSaver", "./saver"]
+        command: ["./wait.sh", "rabbit_krisha", "./krishaSaver"]
     rabbit_krisha:
         restart: always
         image: rabbitmq:3-management
